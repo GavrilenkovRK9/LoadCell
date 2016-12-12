@@ -105,6 +105,7 @@ namespace BL.FeaConnector
             appendCommand(@"*cfclos");
             appendCommand(string.Format(@"*dim,lines,array,{0}", surfaceID.Count()));
             int i = 0;
+            int qqq = 3;
             foreach (var surface in surfaceID)
             {
                 appendCommand(string.Format(@"lines({0})={1}", i, surface));
