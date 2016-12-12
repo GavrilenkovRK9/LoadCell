@@ -10,7 +10,7 @@ using NCalc;
 /// которые являеются входными данными для эксперимента по ИПП
 /// Это управляющие переменные, ограничения функциональные
 /// </summary>
-namespace Input
+namespace BL.Input
 {
     public class FunConstraint
     {
