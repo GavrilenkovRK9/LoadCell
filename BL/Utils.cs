@@ -18,6 +18,17 @@ namespace BL
             return AppDomain.CurrentDomain.BaseDirectory;
         }
 
+        public static string GetTempDir()
+        {
+            return GetDir() + "\\temp\\";
+        }
+
+        public static string GetScriptsDir()
+        {
+            return GetDir() + "\\scripts\\";
+        }
+
+
         public static void ShowError(string message)
         {
             MessageBox.Show(message, "ЕГГОГ", MessageBoxButtons.OK, MessageBoxIcon.Error);
