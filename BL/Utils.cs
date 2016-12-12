@@ -13,6 +13,12 @@ namespace BL
     /// </summary>
     public static class Utils
     {
+        public static List<double> ParseCSV(string input)
+        {
+            var delimited = input.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            return delimited.Select(f => double.Parse(f)).ToList();
+        }
+
         public static string GetDir()
         {
             return AppDomain.CurrentDomain.BaseDirectory;

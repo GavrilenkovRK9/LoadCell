@@ -31,7 +31,7 @@ namespace BL.FeaConnector
             appendCommands(Utils.GetScriptsDir() + "log.mac");
         }
 
-        public void CreateMacros(List<string> variables, List<double[]> values)
+        public void CreateMacros(List<string> variables, List<List<double>> values)
         {
             int macroCount = values.Count();
             findDesignVariables(variables.ToArray());

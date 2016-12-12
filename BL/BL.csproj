@@ -46,9 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FeaConnector\BatchManager.cs" />
+    <Compile Include="FeaConnector\FeaConnector.cs" />
     <Compile Include="FeaConnector\MacroManager.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solution.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
