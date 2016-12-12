@@ -12,6 +12,8 @@ namespace BL.GaugeLocator
 {
     public class Surface
     {
+        
+
         public double GetMeanStrain(double r, double theta, int stepIndex, StrainGauge gauge)
         {
             double baseSide = (gauge.Width - gauge.GridWidth) / 2;
@@ -37,12 +39,12 @@ namespace BL.GaugeLocator
                     totalStrain += interpol.Interpolate(currentCoord);
                     currentCoord += gridPitch;
                 }
-                    
+                return totalStrain / gauge.GridCount;
                 
 
 
             }
-            return 1;
+            
         }
 
         void setSurfaceOrientation()
