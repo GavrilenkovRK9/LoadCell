@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace BL
+{
+    /// <summary>
+    /// свалка полезных статических методов
+    /// </summary>
+    public static class Utils
+    {
+        public static string GetDir()
+        {
+            return AppDomain.CurrentDomain.BaseDirectory;
+        }
+
+        public static void ShowError(string message)
+        {
+            MessageBox.Show(message, "ЕГГОГ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static void CleanDir(string Path)
+        {
+            DirectoryInfo folder = new DirectoryInfo(Path);
+            foreach (FileInfo file in folder.GetFiles())
+            {
+                try
+                {
+                    if (!file.Name.Contains(".mac"))
+                        file.Delete();
+                }
+                catch
+                {
+
+                }
+            }
+        }
+    }
+
+    
+}
