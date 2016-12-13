@@ -20,7 +20,9 @@ namespace BL.FeaConnector
         /// <param name="filePath"></param>
         public MacroManager(string filePath)
         {
+            Utils.CleanDir(Utils.GetTempDir());
             macro = File.ReadAllLines(filePath).ToList();
+            removeCommands(new string[]{ "amesh", "esurf", "lmesh", "lref"});
             truncateMacro(new string[] { "solve", "lssolve" });
             appendCommand("*set, id, 0");
             appendCommands(Utils.GetScriptsDir() + "doe.mac");
@@ -29,6 +31,7 @@ namespace BL.FeaConnector
 
         public MacroManager(string filePath, IEnumerable<string> GFs, IEnumerable<int> SurfaceID)
         {
+            Utils.CleanDir(Utils.GetTempDir());
             macro = File.ReadAllLines(filePath).ToList();
             appendCommand("*set,id,0");
             addCommandsForGF_OutPut(GFs, SurfaceID);
@@ -45,7 +48,7 @@ namespace BL.FeaConnector
             findDesignVariables(temp1.ToArray());
             for (int i = 0; i < macroCount; i++)
             {
-                var temp = solutions[i].VariableValues;
+                var temp = solutions[i].VariableValues.ToList();
                 temp.Add(i);
                 updateChandingVariables(temp.ToArray(), temp1.ToArray());
                 File.WriteAllLines(Utils.GetTempDir() + string.Format("solution_{0}.mac", i), macro);

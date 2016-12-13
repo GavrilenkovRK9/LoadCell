@@ -16,7 +16,7 @@ namespace BL
         {
             variables = vars;
             this.filePath = filePath;
-            
+            this.constraints = constraints;
         }
 
         public int CalculateN(int requiredNPrime)
@@ -25,22 +25,24 @@ namespace BL
             int n0Prime = getNPrime(n0);
             while(n0Prime <= 0)
             {
-                int k = n0 * n0 / n0Prime;
-                n0Prime = getNPrime(k);
-                n0 = k;
+                int difference = (requiredNPrime - n0Prime);
+                n0 += 2 * difference;
+                n0Prime = getNPrime(n0);
+                
             }
-            int n1 = n0 * n0 / n0Prime;
+            int n1 = n0 + 2 * (requiredNPrime - n0Prime);
             int n1Prime = getNPrime(n1);
             while(n1Prime < requiredNPrime)
             {
-                int m = n1 * n1 / n1Prime;
-                n1Prime = getNPrime(m);
-                n1 = m;
+                int difference = (requiredNPrime - n1Prime);
+                n1 += 2 * difference;
+                n1Prime = getNPrime(n1);
+                
             }
-            return (int)(n0 + (n1Prime- n0Prime) * (requiredNPrime - n0Prime) / (double)(n1Prime - n0Prime));
+            return (int)(n0 + (n1- n0) * (requiredNPrime - n0Prime) / (double)(n1Prime - n0Prime));
         }
 
-        private int getNPrime(int N)
+        int getNPrime(int N)
         {
             var names = variables.Select(f => f.Name);
             var generator = new MacroManager(filePath);
@@ -56,6 +58,6 @@ namespace BL
         string filePath;
         IEnumerable<Variable> variables;
         IEnumerable<Constr> constraints;
-        int dimension;
+        
     }
 }

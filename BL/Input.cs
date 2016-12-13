@@ -62,7 +62,7 @@ namespace BL.Input
         public bool ConstraintSatisfied(string[] names, double[] values)
         {
             for (int i = 0; i < values.Length; i++)
-                constraint.Parameters[names[i]] = values;
+                constraint.Parameters[names[i]] = values[i];
             return (bool)constraint.Evaluate();
         }
 
