@@ -14,12 +14,19 @@ namespace BL.FeaConnector
         bool IsSuccess(int solutionId);
     }
 
-    public class FeaConnector : IConnector
+    public class FEAConnector : IConnector
     {
-        public FeaConnector(string filePath, bool isForDOE, List<string> GFs, List<int> SurfaceID)
+        public FEAConnector(string filePath)
         {
             this.filePath = filePath;
-            this.isForDOE = isForDOE;
+            isForDOE = true;
+            logFilePath = Utils.GetTempDir() + "logs.txt";
+        }
+
+        public FEAConnector(string filePath, List<string> GFs, List<int> SurfaceID)
+        {
+            this.filePath = filePath;
+            isForDOE = false;
             this.GFs = GFs;
             this.SurfaceID = SurfaceID;
             logFilePath = Utils.GetTempDir() + "logs.txt";
@@ -35,8 +42,17 @@ namespace BL.FeaConnector
                 strainData.Add(new string[2]);
             }
             isSuccess = new bool[solutions.Count()];
-            var manager = new MacroManager(filePath, isForDOE, GFs, SurfaceID);
-            manager.CreateMacros(varNames, solutions.Select(f => f.VariableValues).ToList());
+            var manager = new MacroManager(filePath, GFs, SurfaceID);
+            manager.CreateMacros(varNames, solutions);
+            var batchManager = new BatchManager();
+            batchManager.RunBatch(solutions.Count());
+        }
+
+        public void ConnectFeaDOE(List<Solution> solutions, List<string> varNames)
+        {
+            isSuccess = new bool[solutions.Count()];
+            var manager = new MacroManager(filePath);
+            manager.CreateMacros(varNames, solutions);
             var batchManager = new BatchManager();
             batchManager.RunBatch(solutions.Count());
         }
@@ -88,6 +104,11 @@ namespace BL.FeaConnector
         public bool IsSuccess(int solutionId)
         {
             return isSuccess[solutionId];
+        }
+
+        public int GetSuccessCount()
+        {
+            return isSuccess.Where(f => f == true).Count();
         }
 
         bool[] isSuccess;

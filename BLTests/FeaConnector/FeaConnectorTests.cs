@@ -17,7 +17,7 @@ namespace BL.FeaConnector.Tests
             var GFs = new string[] { "str_max", "eps_center", "eps_top" };
             var surfaceIds = new int[] { 6, 8, 11 };
             string path = Utils.GetDir() + "\\current.mac";
-            connector = new FeaConnector(path, false, GFs.ToList(), surfaceIds.ToList());
+            connector = new FEAConnector(path, GFs.ToList(), surfaceIds.ToList());
 
         }
 
@@ -75,8 +75,8 @@ namespace BL.FeaConnector.Tests
             testSolutions.Last().VariableValues.Add(92);
             testSolutions.Last().VariableValues.Add(0.02);
             string[] parameterNames = new string[] { "intern_r_1", "groove_inner_h" };
-            connector = new FeaConnector(path, true, GFs.ToList(), surfaceIds.ToList());
-            connector.ConnectToFea(testSolutions, parameterNames.ToList());
+            connector = new FEAConnector(path);
+            connector.ConnectFeaDOE(testSolutions, parameterNames.ToList());
             connector.CollectResults();
             Assert.AreEqual(false, connector.IsSuccess(0));
             Assert.AreEqual(false, connector.IsSuccess(1));
@@ -105,8 +105,8 @@ namespace BL.FeaConnector.Tests
             testSolutions.Last().VariableValues.Add(0.062);
             testSolutions.Last().VariableValues.Add(0.00);
             string[] parameterNames = new string[] { "intern_r_1", "groove_inner_h" };
-            connector = new FeaConnector(path, true, GFs.ToList(), surfaceIds.ToList());
-            connector.ConnectToFea(testSolutions, parameterNames.ToList());
+            connector = new FEAConnector(path);
+            connector.ConnectFeaDOE(testSolutions, parameterNames.ToList());
             connector.CollectResults();
             Assert.AreEqual(false, connector.IsSuccess(0));
             Assert.AreEqual(true, connector.IsSuccess(1));
@@ -115,7 +115,7 @@ namespace BL.FeaConnector.Tests
         }
 
 
-        FeaConnector connector;
+        FEAConnector connector;
         List<Solution> testSolutions;
     }
 }

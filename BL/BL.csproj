@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DOE.cs" />
     <Compile Include="FeaConnector\ArrayReader.cs" />
     <Compile Include="FeaConnector\BatchManager.cs" />
     <Compile Include="FeaConnector\FeaConnector.cs" />

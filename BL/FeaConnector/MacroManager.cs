@@ -14,33 +14,38 @@ namespace BL.FeaConnector
 {
     public class MacroManager
     {
-        public MacroManager(string filePath, bool isForDOE, IEnumerable<string> GFs, IEnumerable<int> SurfaceID)
+        /// <summary>
+        /// версия конструктора для DOE
+        /// </summary>
+        /// <param name="filePath"></param>
+        public MacroManager(string filePath)
         {
             macro = File.ReadAllLines(filePath).ToList();
-            if(isForDOE)
-            {
-                truncateMacro(new string[] { "solve", "lssolve" });
-                appendCommand("*set, id, 0");
-                appendCommands(Utils.GetScriptsDir() + "doe.mac");
-            }
-            else
-            {
-                appendCommand("*set,id,0");
-                addCommandsForGF_OutPut(GFs, SurfaceID);
-            }
+            truncateMacro(new string[] { "solve", "lssolve" });
+            appendCommand("*set, id, 0");
+            appendCommands(Utils.GetScriptsDir() + "doe.mac");
             appendCommands(Utils.GetScriptsDir() + "log.mac");
         }
 
-        public void CreateMacros(List<string> variables, List<List<double>> values)
+        public MacroManager(string filePath, IEnumerable<string> GFs, IEnumerable<int> SurfaceID)
         {
+            macro = File.ReadAllLines(filePath).ToList();
+            appendCommand("*set,id,0");
+            addCommandsForGF_OutPut(GFs, SurfaceID);
+            appendCommands(Utils.GetScriptsDir() + "log.mac");
+        }
+
+        public void CreateMacros(IEnumerable<string> variables, List<Solution> solutions)
+        {
+            
             Utils.CleanDir(Utils.GetTempDir());
-            int macroCount = values.Count();
-            var temp1 = variables;
+            int macroCount = solutions.Count();
+            var temp1 = variables.ToList();
             temp1.Add("id");
-            findDesignVariables(variables.ToArray());
+            findDesignVariables(temp1.ToArray());
             for (int i = 0; i < macroCount; i++)
             {
-                var temp = values[i].ToList();
+                var temp = solutions[i].VariableValues;
                 temp.Add(i);
                 updateChandingVariables(temp.ToArray(), temp1.ToArray());
                 File.WriteAllLines(Utils.GetTempDir() + string.Format("solution_{0}.mac", i), macro);

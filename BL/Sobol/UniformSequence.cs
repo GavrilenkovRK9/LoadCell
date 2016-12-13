@@ -165,10 +165,10 @@ namespace BL.Sobol
 
     public class SobolAB : Sobol01
     {
-        public SobolAB(int pointCount, int dimension, double[] lo, double[] hi) : base(pointCount, dimension)
+        public SobolAB(int pointCount, int dimension, IEnumerable<double> lo, IEnumerable<double> hi) : base(pointCount, dimension)
         {
-            this.lo = lo;
-            this.hi = hi;
+            this.lo = lo.ToArray();
+            this.hi = hi.ToArray();
         }
         double[] lo;
         double[] hi;
