@@ -115,8 +115,57 @@ namespace BL
                 
             }
             //определение множества Парето-оптимальных решений
-
+            for (int i = 0; i < FeasibleSolutions.Count(); i++)
+            {
+                bool isPareto = true;
+                for (int j = 0; j < FeasibleSolutions.Count(); j++)
+                {
+                    if (i!=j && dominatesA_B(FeasibleSolutions[j], FeasibleSolutions[i]))
+                    {
+                        isPareto = false;
+                        break;
+                    }
+                }
+                if (isPareto)
+                    ParetoSolutions.Add(FeasibleSolutions[i]);
+            }
             
+        }
+
+        bool dominatesA_B(Solution A, Solution B)
+        {
+            bool[] notWorse = new bool[A.CriterionValues.Count()];
+            bool[] better = new bool[A.CriterionValues.Count()];
+            bool isBetter = false;
+            bool isWorse = false;
+            for (int i = 0; i < Criterions.Count(); i++)
+            {
+                bool currentNotWorse;
+                bool currentBetter;
+                if(Criterions[i].isMinimized)
+                {
+                    currentNotWorse = (A.CriterionValues[i] <= B.CriterionValues[i]) ? true : false;
+                    currentBetter = (A.CriterionValues[i] < B.CriterionValues[i]) ? true : false;
+                }
+                else
+                {
+                    currentNotWorse = (A.CriterionValues[i] >= B.CriterionValues[i]) ? true : false;
+                    currentBetter = (A.CriterionValues[i] > B.CriterionValues[i]) ? true : false;
+                }
+                if(!currentNotWorse)
+                {
+                    isWorse = true;
+                    break;
+                }
+                if(currentBetter)
+                {
+                    isBetter = true;
+                }
+            }
+            if (isBetter && !isWorse)
+                return true;
+            else
+                return false;
         }
 
         List<Solution> solutions;//решения данного прогона
