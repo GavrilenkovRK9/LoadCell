@@ -20,7 +20,7 @@ namespace BL.SaveLoad
                     variable.Hi, (variable.IsDecisionVariable) ? "Да" : "Нет");
                 writer.WriteLine(string.Join(";", exp.softConstraints.Select(f=>f.ConstraintEquation)));
                 writer.WriteLine(string.Join(";", exp.fixedConstraints.Select(f => f.ConstraintEquation)));
-                writer.WriteLine(string.Join(";", exp.CriterionContraints.Select(f => f.ConstraintEquation)));
+                writer.WriteLine(string.Join(";", exp.Criterions.Select(f => f.ConstraintEqn)));
                 writer.WriteLine(string.Join(";", exp.Criterions.Select(f => f.Name)));
                 writer.WriteLine(string.Join(";", exp.Criterions.Select(f=>(f.isMinimized)?"Да":"Нет")));
                 writer.WriteLine(string.Join(";", exp.surfaceID));

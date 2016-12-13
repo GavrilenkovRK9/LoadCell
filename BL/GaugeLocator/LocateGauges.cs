@@ -64,8 +64,8 @@ namespace BL.GaugeLocator
             get
             {
                 var result = new List<double>();
-                result.Add(resultingGain);
                 result.Add(resultingNonlinearity);
+                result.Add(resultingGain);
                 return result;
             }
         }

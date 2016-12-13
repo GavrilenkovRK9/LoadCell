@@ -119,8 +119,33 @@ namespace BL.Input
         {
             this.Name = Name;
             this.isMinimized = isMinimized;
+            constraint = new Expression("true");
         }
         public string Name { get; set; }
         public bool isMinimized { get; set; }
+        public string ConstraintEqn { get; set; }
+        
+        public bool ConstraintSatisfied(double criterionValue)
+        {
+            constraint.Parameters[Name] = criterionValue;
+            return (bool)constraint.Evaluate();
+        }
+        public void SetConstraint(double CriterionLimit)
+        {
+            if(isMinimized)
+            {
+                ConstraintEqn = string.Format("{0}<{1}", Name, CriterionLimit);
+                constraint = new Expression(ConstraintEqn);
+            }
+                
+            else
+            {
+                ConstraintEqn = string.Format("{0}>={1}", Name, CriterionLimit);
+                constraint = new Expression(ConstraintEqn);
+            }
+                
+        }
+
+        Expression constraint;
     }
 }
