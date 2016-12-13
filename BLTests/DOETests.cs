@@ -43,14 +43,14 @@ namespace BL.Tests
             List<FunConstraint> constraints = new List<FunConstraint>();
             constraints.Add(new FunConstraint("foot_dia_mid+flat_foot<0.078"));
             constraints.Add(new FunConstraint("intern_r_1<0.078"));
+            int i = 64;
             var doe = new DOE(path, vars, constraints);
-            int N = doe.CalculateN(16);
+            int N = doe.CalculateN(i);
             var testConnector = new FeaConnector.FEAConnector(path);
             testConnector.ConnectFeaDOE(SolutionGenerator.solutions(vars, constraints, N), vars.Select(f => f.Name).ToList());
             testConnector.CollectResults();
             int N_actual = testConnector.GetSuccessCount();
-            Assert.AreEqual(16, N_actual, 2);
-            
+            Assert.AreEqual(i, N_actual, 2);
         }
     }
 }

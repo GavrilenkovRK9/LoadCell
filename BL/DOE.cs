@@ -21,8 +21,11 @@ namespace BL
 
         public int CalculateN(int requiredNPrime)
         {
-            int n0 = requiredNPrime;
+            int n0 = getInitialEstimate(requiredNPrime);
             int n0Prime = getNPrime(n0);
+            if (n0Prime >= requiredNPrime && n0Prime < 1.1 * requiredNPrime)
+                return n0Prime;
+
             while(n0Prime <= 0)
             {
                 int difference = (requiredNPrime - n0Prime);
@@ -30,7 +33,7 @@ namespace BL
                 n0Prime = getNPrime(n0);
                 
             }
-            int n1 = n0 + 2 * (requiredNPrime - n0Prime);
+            int n1 = n0 + 2 * (requiredNPrime - n0Prime) + 1;
             int n1Prime = getNPrime(n1);
             while(n1Prime < requiredNPrime)
             {
@@ -41,6 +44,32 @@ namespace BL
             }
             return (int)(n0 + (n1- n0) * (requiredNPrime - n0Prime) / (double)(n1Prime - n0Prime));
         }
+
+        int getInitialEstimate(int N)
+        {
+            int n0 = N;
+            int n0Prime = SolutionGenerator.solutions(variables, constraints, n0).Count();
+            while (n0Prime <= 0)
+            {
+                int difference = (N - n0Prime);
+                n0 += 2 * difference;
+                n0Prime = SolutionGenerator.solutions(variables, constraints, n0).Count();
+
+            }
+            int n1 = n0 + 2 * (N - n0Prime);
+            int n1Prime = SolutionGenerator.solutions(variables, constraints, n1).Count();
+            while (n1Prime < N)
+            {
+                int difference = (N - n1Prime);
+                n1 += 2 * difference;
+                n1Prime = SolutionGenerator.solutions(variables, constraints, n1).Count();
+
+            }
+            var result = (int)(n0 + (n1 - n0) * (N - n0Prime) / (double)(n1Prime - n0Prime));
+            return result;
+
+        }
+
 
         int getNPrime(int N)
         {
