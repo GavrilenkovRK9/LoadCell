@@ -12,7 +12,7 @@ namespace BL.FeaConnector
         public BatchManager()
         {
             readConfigurations();
-            directory = Utils.GetDir();
+            directory = Utils.GetTempDir();
         }
 
         public void RunOnceGUI()
