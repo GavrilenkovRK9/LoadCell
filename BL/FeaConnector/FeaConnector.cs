@@ -22,6 +22,7 @@ namespace BL.FeaConnector
             this.isForDOE = isForDOE;
             this.GFs = GFs;
             this.SurfaceID = SurfaceID;
+            logFilePath = Utils.GetTempDir() + "logs.txt";
         }
                  
         public void ConnectToFea(List<Solution> solutions, List<string> varNames)
@@ -42,11 +43,13 @@ namespace BL.FeaConnector
 
         public void CollectResults()
         {
+            if (!File.Exists(logFilePath))
+                return;
             var regex = new Regex(@"(results\d+.txt|strain_\d+.txt)", RegexOptions.IgnoreCase);
             //сбор результатов из скалярного файла
             DirectoryInfo info = new DirectoryInfo(Utils.GetTempDir());
             var files = info.GetFiles().Select(f => f.Name).Where(f => regex.IsMatch(f)).ToList();
-            var winnerIDs = File.ReadAllLines(Utils.GetTempDir() + "logs.txt").Select(f => f.Substring(1))
+            var winnerIDs = File.ReadAllLines(logFilePath).Select(f => f.Substring(1))
                 .Select(f => int.Parse(f));
             foreach(var id in winnerIDs)
             {
@@ -94,5 +97,6 @@ namespace BL.FeaConnector
         string filePath;
         bool isForDOE;
         List<int> SurfaceID;
+        string logFilePath;
     }
 }
