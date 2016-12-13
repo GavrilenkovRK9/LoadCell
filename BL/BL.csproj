@@ -52,10 +52,11 @@
   <ItemGroup>
     <Compile Include="DOE.cs" />
     <Compile Include="Experiment.cs" />
-    <Compile Include="FeaConnector\ArrayReader.cs" />
+    <Compile Include="FeaConnector\StrainReader.cs" />
     <Compile Include="FeaConnector\BatchManager.cs" />
     <Compile Include="FeaConnector\FeaConnector.cs" />
     <Compile Include="FeaConnector\MacroManager.cs" />
+    <Compile Include="GaugeLocator\LocateGauges.cs" />
     <Compile Include="GaugeLocator\Surface.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

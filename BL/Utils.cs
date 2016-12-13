@@ -13,6 +13,14 @@ namespace BL
     /// </summary>
     public static class Utils
     {
+        public static double[] getCol(double[][] arg, int iColumn)
+        {
+            var result = new double[arg.Length];
+            for (int i = 0; i < arg.Length; i++)
+                result[i] = arg[i][iColumn];
+            return result;
+        }
+
         public static List<double> ParseCSV(string input)
         {
             var delimited = input.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);

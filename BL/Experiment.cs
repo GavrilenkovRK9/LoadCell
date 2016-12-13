@@ -17,6 +17,7 @@ namespace BL
 
         public void RunExperiment()
         {
+            locationProblems = new List<GaugeLocator.LocateGauges>();
             solutions = SolutionGenerator.solutions(Variables, fixedConstraints, PointCount);
             var macroGenerator = new MacroManager(FilePath, Criterions.Select(f => f.Name), surfaceID);
             macroGenerator.CreateMacros(Variables.Select(f => f.Name), solutions);
@@ -29,12 +30,17 @@ namespace BL
                 {
                     solutions[i].Feasible = connector.IsSuccess(i);
                     solutions[i].CriterionValues = connector.GetGF(i);
+                    var reader = new StrainReader()
+                    locationProblems.Add(new GaugeLocator.LocateGauges(null, RequiredGain, TensionGauge,
+                        CompressionGauge, null));
                 }
             }
 
             solutions.RemoveAll(f => f.Feasible == false);
         }
 
+        
+        public double RequiredGain { get; set; }
         public int PointCount { get; set; }
         public List<Variable> Variables { get; set; }
         public StrainGauge TensionGauge { get; set; }
@@ -58,5 +64,6 @@ namespace BL
             }
         }
         List<Solution> solutions;
+        List<GaugeLocator.LocateGauges> locationProblems;
     }
 }
