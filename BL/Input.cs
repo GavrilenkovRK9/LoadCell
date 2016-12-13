@@ -16,6 +16,7 @@ namespace BL.Input
     {
         public FunConstraint(string ConstraintEquation)
         {
+            this.ConstraintEquation = ConstraintEquation;
             constraint = new Expression(ConstraintEquation);
         }
 
@@ -65,6 +66,8 @@ namespace BL.Input
                 constraint.Parameters[names[i]] = values[i];
             return (bool)constraint.Evaluate();
         }
+
+        public string ConstraintEquation { get; set; }
 
         private Expression constraint;
 

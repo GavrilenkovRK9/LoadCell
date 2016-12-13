@@ -76,7 +76,7 @@ namespace BL
             var names = variables.Select(f => f.Name);
             var generator = new MacroManager(filePath);
             var generatedSolutions = SolutionGenerator.solutions(variables, constraints, N);
-            generator.CreateMacros(names, generatedSolutions);
+            generator.CreateMacros(names.ToList(), generatedSolutions);
             var connector = new FEAConnector(filePath);
             connector.ConnectFeaDOE(generatedSolutions, names.ToList());
             connector.CollectResults();

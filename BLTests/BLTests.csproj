@@ -52,6 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DOETests.cs" />
+    <Compile Include="ExperimentTests.cs" />
     <Compile Include="FeaConnector\FeaConnectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

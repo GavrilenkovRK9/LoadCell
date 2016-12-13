@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DOE.cs" />
+    <Compile Include="Experiment.cs" />
     <Compile Include="FeaConnector\ArrayReader.cs" />
     <Compile Include="FeaConnector\BatchManager.cs" />
     <Compile Include="FeaConnector\FeaConnector.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="GaugeLocator\Surface.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveLoad\SaveUserResults.cs" />
     <Compile Include="Sobol\DirectionNumbers.cs" />
     <Compile Include="Sobol\UniformSequence.cs" />
     <Compile Include="Solution.cs" />

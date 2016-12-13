@@ -11,8 +11,8 @@ namespace BL
     public interface ISolution
     {
         List<double> VariableValues { get; set; }
-        List<double> CriterionValues { get; }
-        void SetCriterions(FeaConnector.FEAConnector connector);
+        List<double> CriterionValues { get; set; }
+        
     }
 
     public class Solution: ISolution
@@ -58,12 +58,14 @@ namespace BL
             {
                 return criterionValues;
             }
+
+            set
+            {
+                criterionValues = value;
+            }
         }
 
-        public void SetCriterions(FeaConnector.FEAConnector connector)
-        {
-
-        }
+        public bool Feasible { get; set; }
 
         private List<double> variableValues;
         private List<double> criterionValues;
