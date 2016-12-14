@@ -27,7 +27,7 @@ namespace BL.GaugeLocator
             for (int i = 0; i < pointCount; i++)
             {
                 evalGF(i);
-                if(goalFunctions[i][])
+                //if(goalFunctions[i][])
             }
         }
 

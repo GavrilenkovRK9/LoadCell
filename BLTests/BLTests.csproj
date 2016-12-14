@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConstructParetoTests.cs" />
     <Compile Include="DOETests.cs" />
     <Compile Include="ExperimentTests.cs" />
     <Compile Include="FeaConnector\FeaConnectorTests.cs" />

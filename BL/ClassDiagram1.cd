@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BL.DOE" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEACAAAEAAAAAQAAAEAIA=</HashCode>
+      <FileName>DOE.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Experiment" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAACAAAAgAQQAAAJAAIIAAIhAAQAAgAABARKQABAIAA=</HashCode>
+      <FileName>Experiment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Solution" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAEACAgAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Solution.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BL.SolutionGenerator" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Solution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Utils" Collapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAQAAAAAAAAAAQAAAAAAAAAABAAAAAAAgAgAAE=</HashCode>
+      <FileName>Utils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.FeaConnector.BatchManager" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAwAAAgAQAAgAAAAAAAAAAIBAgAAAAAAABQAARAE=</HashCode>
+      <FileName>FeaConnector\BatchManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.FeaConnector.FEAConnector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAAACoAAAAAAACCAAAAAAhIEEAAIAAAABAAAQ=</HashCode>
+      <FileName>FeaConnector\FeaConnector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BL.FeaConnector.MacroManager" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIgAAAAAgAgAIAAAAAAAQAAAAIQEACAAgAQQAA=</HashCode>
+      <FileName>FeaConnector\MacroManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.FeaConnector.StrainReader" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKAAAAEAAAAAAEAAAhIAAAAAACACAAAACAgQAAgAAAA=</HashCode>
+      <FileName>FeaConnector\StrainReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.GaugeLocator.LocateGauges" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEQACAAkMAIAFQBCBAAICQABIBBAAAAEAECACAwI=</HashCode>
+      <FileName>GaugeLocator\LocateGauges.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.GaugeLocator.Surface" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAABAIAA=</HashCode>
+      <FileName>GaugeLocator\Surface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.GaugeLocator.Node" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAAAAAAQAA=</HashCode>
+      <FileName>GaugeLocator\Surface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Input.FunConstraint">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAABAAAAgAAAAAAAJAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Input.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Input.Variable" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAABSAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Input.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Input.StrainGauge" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAACAAAAAAAAEBAAAAAEAAIQAAAACAAAAA=</HashCode>
+      <FileName>Input.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Input.Surface" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Input.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Input.Criterion" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAIAQQAAAAAJAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Input.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.SaveLoad.SaveUserResults" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SaveLoad\SaveUserResults.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Sobol.DirectionNumbers" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Sobol\DirectionNumbers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Sobol.Sobol01" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAACAAAAAEAAAgAgAAAAUAQkQAQAAAAQAAQEAAA=</HashCode>
+      <FileName>Sobol\UniformSequence.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BL.Sobol.SobolAB" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAASAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sobol\UniformSequence.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BL.ISolution" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Solution.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BL.FeaConnector.IConnector" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FeaConnector\FeaConnector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
