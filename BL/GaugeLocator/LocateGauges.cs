@@ -35,7 +35,7 @@ namespace BL.GaugeLocator
         {
             pointCount = 0;
             foreach (var surface in surfaces)
-                pointCount += (int)((surface.maxR - surface.maxR) / positioningAccuracy);
+                pointCount += (int)((surface.maxCoord - surface.maxCoord) / positioningAccuracy);
             pointCount *= 4;
             tentativeLocations = new double[pointCount][];
             for (int i = 0; i < pointCount; i++)
@@ -151,8 +151,8 @@ namespace BL.GaugeLocator
 
         double getLocationRFromLP_Tau(double input, StrainGauge gauge, int surfaceID)
         {
-            double leftLimit = surfaces[surfaceID].minR + gauge.Length;
-            double rightLimit = surfaces[surfaceID].maxR - 2 * gauge.Length;
+            double leftLimit = surfaces[surfaceID].minCoord + gauge.Length;
+            double rightLimit = surfaces[surfaceID].maxCoord - 2 * gauge.Length;
             return leftLimit + input * (rightLimit - leftLimit);
         } 
 

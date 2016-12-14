@@ -31,7 +31,7 @@ namespace BL
                     solutions[i].Feasible = connector.IsSuccess(i);
                     solutions[i].CriterionValues = connector.GetGF(i);
                     var reader = new StrainReader(connector.GetSurfaceData(i));
-                    var locationProblem = new GaugeLocator.LocateGauges(reader.Surfaces(), RequiredGain, TensionGauge,
+                    var locationProblem = new GaugeLocator.LocateGauges(reader.Surfaces, RequiredGain, TensionGauge,
                         CompressionGauge, reader.TimeCurve);
                     solutions[i].CriterionValues.Concat(locationProblem.GetGF);
                     

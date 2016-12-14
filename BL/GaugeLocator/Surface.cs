@@ -19,8 +19,8 @@ namespace BL.GaugeLocator
             nodes = new List<Node>();
             for (int i = 0; i < nodeCount; i++)
                 nodes.Add(new Node(coord[i], Utils.getCol(axialStrain, i), Utils.getCol(axialStrain, i)));
-            minR = coord.Min();
-            maxR = coord.Max();
+            minCoord = coord.Min();
+            maxCoord = coord.Max();
         }
         
         public double GetMeanStrain(double r, double theta, int stepIndex, StrainGauge gauge)
@@ -56,8 +56,8 @@ namespace BL.GaugeLocator
             
         }
         
-        public double minR { get; set; }
-        public double maxR { get; set; }
+        public double minCoord { get; set; }
+        public double maxCoord { get; set; }
                
         List<Node> nodes;
     }
