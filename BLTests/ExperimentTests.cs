@@ -49,7 +49,11 @@ namespace BL.Tests
             exp.FilePath = path;
             exp.surfaceID = new List<int>{ 6,10};
             exp.RunExperiment();
-            
+            exp.CalculateFeasibleAndPareto();
+            var qq1 = exp.ParetoSolutions;
+            exp.Criterions.First().SetConstraint(1000);
+            exp.CalculateFeasibleAndPareto();
+            var qq2 = exp.ParetoSolutions;
             Assert.Fail();
         }
 

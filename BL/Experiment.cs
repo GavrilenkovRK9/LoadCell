@@ -43,9 +43,9 @@ namespace BL
             solutions.RemoveAll(f => f.Feasible == false);
             if(runCount==0)
             {
-                Criterions.Add(new Criterion("NL", true));
-                Criterions.Add(new Criterion("Gain", false));
-                Criterions.Last().SetConstraint(RequiredGain);
+                //Criterions.Add(new Criterion("NL", true));
+                //Criterions.Add(new Criterion("Gain", false));
+                //Criterions.Last().SetConstraint(RequiredGain);
                 softConstraints.Add(new FunConstraint("true"));
             }
             runCount++;
@@ -82,8 +82,10 @@ namespace BL
                 solutions = value;
             }
         }
+        public List<Solution> ParetoSolutions { get; set; }
+        public List<Solution> FeasibleSolutions { get; set; }
 
-        void CalculateFeasibleAndPareto()
+        public void CalculateFeasibleAndPareto()
         {
             //Допустимым считается то решение, которое прошло
             //мягкие функциональные ограничения и критериальные
@@ -118,64 +120,25 @@ namespace BL
                     FeasibleSolutions.Add(solution);
                 
             }
-            //определение множества Парето-оптимальных решений
-            for (int i = 0; i < FeasibleSolutions.Count(); i++)
-            {
-                bool isPareto = true;
-                for (int j = 0; j < FeasibleSolutions.Count(); j++)
-                {
-                    if (i!=j && dominatesA_B(FeasibleSolutions[j], FeasibleSolutions[i]))
-                    {
-                        isPareto = false;
-                        break;
-                    }
-                }
-                if (isPareto)
-                    ParetoSolutions.Add(FeasibleSolutions[i]);
-            }
-            
-        }
 
-        bool dominatesA_B(Solution A, Solution B)
-        {
-            bool[] notWorse = new bool[A.CriterionValues.Count()];
-            bool[] better = new bool[A.CriterionValues.Count()];
-            bool isBetter = false;
-            bool isWorse = false;
-            for (int i = 0; i < Criterions.Count(); i++)
+            double[][] points = new double[FeasibleSolutions.Count][];
+            for (int i = 0; i < FeasibleSolutions.Count; i++)
             {
-                bool currentNotWorse;
-                bool currentBetter;
-                if(Criterions[i].isMinimized)
+                points[i] = new double[Criterions.Count];
+                for (int j = 0; j < Criterions.Count; j++)
                 {
-                    currentNotWorse = (A.CriterionValues[i] <= B.CriterionValues[i]) ? true : false;
-                    currentBetter = (A.CriterionValues[i] < B.CriterionValues[i]) ? true : false;
-                }
-                else
-                {
-                    currentNotWorse = (A.CriterionValues[i] >= B.CriterionValues[i]) ? true : false;
-                    currentBetter = (A.CriterionValues[i] > B.CriterionValues[i]) ? true : false;
-                }
-                if(!currentNotWorse)
-                {
-                    isWorse = true;
-                    break;
-                }
-                if(currentBetter)
-                {
-                    isBetter = true;
+                    if (!Criterions[j].isMinimized)
+                        points[i][j] = 1 / (1 + solutions[i].CriterionValues[j]);
                 }
             }
-            if (isBetter && !isWorse)
-                return true;
-            else
-                return false;
+            var pareto = ConstructPareto.ParetoSolIndices(points);
+            foreach (var paretoSolIndex in pareto)
+                ParetoSolutions.Add(FeasibleSolutions[paretoSolIndex]);
         }
 
         List<Solution> solutions;//решения данного прогона
         List<Solution> archivedSolutions;//решения ото всех прогонов
-        List<Solution> ParetoSolutions { get; set; }
-        List<Solution> FeasibleSolutions { get; set; }
+        
 
 
         int runCount;
