@@ -54,7 +54,7 @@ namespace BL.Tests
             exp.Criterions.First().SetConstraint(1000);
             exp.CalculateFeasibleAndPareto();
             var qq2 = exp.ParetoSolutions;
-            Assert.Fail();
+            Assert.AreEqual(1, qq2.Count);
         }
 
         

@@ -59,6 +59,7 @@
     <Compile Include="FeaConnector\MacroManager.cs" />
     <Compile Include="GaugeLocator\LocateGauges.cs" />
     <Compile Include="GaugeLocator\Surface.cs" />
+    <Compile Include="GaugeLocator\SurfaceSelector.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveLoad\SaveUserResults.cs" />

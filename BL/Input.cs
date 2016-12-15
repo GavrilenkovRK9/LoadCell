@@ -119,11 +119,7 @@ namespace BL.Input
         public double GridCount { get; set; }
     }
 
-    public class Surface
-    {
-        public int ID { get; set; }
-        public bool Horizontal { get; set; }
-    }
+    
 
     public class Criterion
     {
