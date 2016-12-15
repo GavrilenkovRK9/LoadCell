@@ -14,8 +14,14 @@ namespace BL.GaugeLocator
             StrainGauge TensionGauge, StrainGauge CompressionGauge,
             double [] timeCurve)
         {
+            gauge = TensionGauge;
+            get05Index(timeCurve);
             this.surfaces = surfaces;
             createRouletteToChooseSurface();
+            calculatePointCount();
+            findLocations(requiredGain);
+            
+
         }
 
 
@@ -23,39 +29,49 @@ namespace BL.GaugeLocator
         {
             double[] bestScheme = null;
             double minNl = 100;
-            calculatePointCount();
+            if (surfaceCount == 1)
+                generateVariantsOneSurface();
+            else
+                generateVariantsMultipleSurfaces();
             for (int i = 0; i < pointCount; i++)
-            {
                 evalGF(i);
-                //if(goalFunctions[i][])
-            }
+            var paretoSolutions = ConstructPareto.ParetoSolIndices(goalFunctions);
+            int qqq = 3;
+
+
         }
 
         void calculatePointCount()
         {
             pointCount = 0;
             foreach (var surface in surfaces)
-                pointCount += (int)((surface.maxCoord - surface.maxCoord) / positioningAccuracy);
+                pointCount += (int)((surface.maxCoord - surface.minCoord) / positioningAccuracy);
             pointCount *= 4;
             tentativeLocations = new double[pointCount][];
+            goalFunctions = new double[pointCount][];
             for (int i = 0; i < pointCount; i++)
-                tentativeLocations[i] = new double[decisionVariableCount];
-
+            {
+                tentativeLocations[i] = new double[decisionVariableCount+1];
+                goalFunctions[i] = new double[2];
+            }
+                
+            
+            
             
         }
 
         void generateVariantsMultipleSurfaces()
         {
-            var sobol = new Sobol01(pointCount, decisionVariableCountOneSurface);
+            var sobol = new Sobol01(pointCount, decisionVariableCount);
             for (int i = 0; i < pointCount; i++)
             {
                 var params_ = sobol.getNextSobol01();
+                tentativeLocations[i][0] = getSurfaceNoFromLP_tau(params_[0]);
                 tentativeLocations[i][1] = getSurfaceNoFromLP_tau(params_[1]);
-                tentativeLocations[i][2] = getSurfaceNoFromLP_tau(params_[2]);
-                tentativeLocations[i][2] = getLocationRFromLP_Tau(params_[0], gauge, 0);
-                tentativeLocations[i][3] = getLocationRFromLP_Tau(params_[1], gauge, 0);
-                tentativeLocations[i][4] = getLocationThetaFromLP_Tau(params_[2]);
-                tentativeLocations[i][5] = getLocationThetaFromLP_Tau(params_[3]);
+                tentativeLocations[i][2] = getLocationRFromLP_Tau(params_[2], gauge, 0);
+                tentativeLocations[i][3] = getLocationRFromLP_Tau(params_[3], gauge, 0);
+                tentativeLocations[i][4] = getLocationThetaFromLP_Tau(params_[4]);
+                tentativeLocations[i][5] = 90- getLocationThetaFromLP_Tau(params_[4]);
             }
 
         }
@@ -83,22 +99,33 @@ namespace BL.GaugeLocator
             double r2 = tentativeLocations[i][3];
             double theta1 = tentativeLocations[i][4];
             double theta2 = tentativeLocations[i][5];
-            var deltaR_Tension05 = surfaces[s_id_1].GetMeanStrain(r1, theta1, index05, gauge);
-            var deltaR_Tension10 = surfaces[s_id_1].GetMeanStrain(r1, theta1, index10, gauge);
-            var deltaR_Compression05 = surfaces[s_id_2].GetMeanStrain(r2, theta2, index05, gauge);
-            var deltaR_Compression10 = surfaces[s_id_2].GetMeanStrain(r2, theta2, index10, gauge);
+            var deltaR_Tension05 = getDeltaR(surfaces[s_id_1].GetMeanStrain(r1, theta1, index05, gauge),gauge);
+            var deltaR_Tension10 = getDeltaR(surfaces[s_id_1].GetMeanStrain(r1, theta1, index10, gauge), gauge);
+            var deltaR_Compression05 = getDeltaR(surfaces[s_id_2].GetMeanStrain(r2, theta2, index05, gauge), gauge);
+            var deltaR_Compression10 = getDeltaR(surfaces[s_id_2].GetMeanStrain(r2, theta2, index10, gauge), gauge);
             var gain05 = getGain(deltaR_Tension05, deltaR_Compression05);
             var gain10 = getGain(deltaR_Tension10, deltaR_Compression10);
-            goalFunctions[i][0] = Math.Abs((gain05 - 0.5* gain10) / gain10 * 100);
-            goalFunctions[i][1] = gain10;
+            goalFunctions[i][0] = Math.Abs((gain05 - timeForNl* gain10) / gain10 * 100);
+            goalFunctions[i][1] = 1/(1+Math.Abs(gain10));
 
+        }
+
+        double getDeltaR(double strain, StrainGauge gauge)
+        {
+            double naturalStrain = Math.Log(strain + 1);
+            return Math.Exp(gauge.GaugeFactor * naturalStrain) - 1;
         }
 
         double getGain(double deltaR1, double deltaR2)
         {
-            double term1 = (1 + deltaR1) / (2 + deltaR1 + deltaR2);
-            double term2 = (1 - deltaR2) / (2 + deltaR1 + deltaR2);
-            return term1 - term2;
+            
+            if (deltaR1 * deltaR2 > 0)
+                return 0;
+            else
+            {
+                return 1000*(deltaR1 - deltaR2) / (2 + deltaR1 + deltaR2);
+            }
+            
         }
         
 
@@ -109,6 +136,7 @@ namespace BL.GaugeLocator
             double closest = list.Aggregate((x, y) => Math.Abs(x - number) < Math.Abs(y - number) ? x : y);
             index05 = Array.IndexOf(timeCurve, closest);
             index10 = timeCurve.Length - 1;
+            timeForNl = timeCurve[index05];
         }
         
         
@@ -124,11 +152,7 @@ namespace BL.GaugeLocator
             surfacesRoulette[surfaceCount - 1] = 1;
         }
 
-        void calculateGoalFunctions(int locationID)
-        {
-
-        }
-
+        
         double getSurfaceNoFromLP_tau(double input)
         {
             if (input == 0)
@@ -161,6 +185,7 @@ namespace BL.GaugeLocator
 
         int pointCount;
         int index05;
+        double timeForNl;
         int index10;
         List<Surface> surfaces;
         int surfaceCount;
@@ -169,6 +194,7 @@ namespace BL.GaugeLocator
         double resultingNonlinearity;
         double[][] tentativeLocations;
         double[][] goalFunctions;
+        
         StrainGauge gauge;
 
 
@@ -178,14 +204,16 @@ namespace BL.GaugeLocator
             get
             {
                 var result = new List<double>();
-                result.Add(resultingNonlinearity);
-                result.Add(resultingGain);
+                //result.Add(resultingNonlinearity);
+                //result.Add(resultingGain);
+                result.Add(0.005);
+                result.Add(2.3);
                 return result;
             }
         }
 
-        const double positioningAccuracy = 0.1;
-        const int decisionVariableCount = 6;
+        const double positioningAccuracy = 0.1e-3;
+        const int decisionVariableCount = 5;
         const int decisionVariableCountOneSurface = 4;
 
 

@@ -55,6 +55,9 @@
     <Compile Include="DOETests.cs" />
     <Compile Include="ExperimentTests.cs" />
     <Compile Include="FeaConnector\FeaConnectorTests.cs" />
+    <Compile Include="FeaConnector\StrainReaderTests.cs" />
+    <Compile Include="GaugeLocator\LocateGaugesTests.cs" />
+    <Compile Include="GaugeLocator\SurfaceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

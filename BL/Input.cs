@@ -75,6 +75,18 @@ namespace BL.Input
 
     public class Variable
     {
+        public Variable()
+        {
+
+        }
+        public Variable(string name, double initValue, double lo, double hi, bool isDecVar)
+        {
+            Name = name;
+            InitValue = initValue;
+            Hi = hi;
+            Lo = lo;
+            IsDecisionVariable = isDecVar;
+        }
         public double InitValue { get; set; }
         public double Hi { get; set; }
         public double Lo { get; set; }

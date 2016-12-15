@@ -13,6 +13,9 @@ namespace BL
         public Experiment()
         {
             archivedSolutions = new List<Solution>();
+            Criterions = new List<Criterion>();
+            softConstraints = new List<FunConstraint>();
+            fixedConstraints = new List<FunConstraint>();
         }
 
         public void RunExperiment()
@@ -21,7 +24,7 @@ namespace BL
             solutions = SolutionGenerator.solutions(Variables, fixedConstraints, PointCount);
             var macroGenerator = new MacroManager(FilePath, Criterions.Select(f => f.Name), surfaceID);
             macroGenerator.CreateMacros(Variables.Select(f => f.Name), solutions);
-            var connector = new FEAConnector(FilePath);
+            var connector = new FEAConnector(FilePath, Criterions.Select(f=>f.Name).ToList(), surfaceID);
             connector.ConnectToFea(solutions, Variables.Select(f => f.Name).ToList());
             connector.CollectResults();
             for (int i = 0; i < solutions.Count(); i++)
@@ -49,6 +52,7 @@ namespace BL
             archivedSolutions.Concat(solutions);
         }
 
+        
         public void RunLocalSearch(List<double> initialVariableValues, List<string> designPars, double deviationFromStart)
         {
 

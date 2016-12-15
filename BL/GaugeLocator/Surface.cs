@@ -18,7 +18,7 @@ namespace BL.GaugeLocator
             int nodeCount = coord.Length;
             nodes = new List<Node>();
             for (int i = 0; i < nodeCount; i++)
-                nodes.Add(new Node(coord[i], Utils.getCol(axialStrain, i), Utils.getCol(axialStrain, i)));
+                nodes.Add(new Node(coord[i], Utils.getCol(axialStrain, i), Utils.getCol(tangentialStrain, i)));
             minCoord = coord.Min();
             maxCoord = coord.Max();
         }
@@ -34,8 +34,8 @@ namespace BL.GaugeLocator
             {
                 var strain = nodes.Select(f => f.EpsR[stepIndex]);
                 var interpol = Interpolate.Linear(coord, strain);
-                double endCoord = startCoord + gauge.GridWidth;
-                return interpol.Integrate(startCoord, endCoord);
+                double endCoord = startCoord + gauge.GridLength;
+                return interpol.Integrate(startCoord, endCoord)/ gauge.GridLength;
             }
             else//theta equals 90 degrees
             {

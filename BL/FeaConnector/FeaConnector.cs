@@ -42,8 +42,6 @@ namespace BL.FeaConnector
                 strainData.Add(new string[2]);
             }
             isSuccess = new bool[solutions.Count()];
-            var manager = new MacroManager(filePath, GFs, SurfaceID);
-            manager.CreateMacros(varNames, solutions);
             var batchManager = new BatchManager();
             batchManager.RunBatch(solutions.Count());
         }
@@ -66,7 +64,7 @@ namespace BL.FeaConnector
             DirectoryInfo info = new DirectoryInfo(Utils.GetTempDir());
             var files = info.GetFiles().Select(f => f.Name).Where(f => regex.IsMatch(f)).ToList();
             var winnerIDs = File.ReadAllLines(logFilePath).Select(f => f.Substring(1))
-                .Select(f => int.Parse(f));
+                .Select(f => int.Parse(f)).ToList();
             foreach(var id in winnerIDs)
             {
                 isSuccess[id] = true;
