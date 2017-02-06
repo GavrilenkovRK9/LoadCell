@@ -50,17 +50,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeaConnector\ArrayReader.cs" />
+    <Compile Include="ConstructPareto.cs" />
+    <Compile Include="DOE.cs" />
+    <Compile Include="Experiment.cs" />
+    <Compile Include="FeaConnector\StrainReader.cs" />
     <Compile Include="FeaConnector\BatchManager.cs" />
     <Compile Include="FeaConnector\FeaConnector.cs" />
     <Compile Include="FeaConnector\MacroManager.cs" />
+    <Compile Include="GaugeLocator\LocateGauges.cs" />
     <Compile Include="GaugeLocator\Surface.cs" />
+    <Compile Include="GaugeLocator\SurfaceSelector.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveLoad\SaveUserResults.cs" />
+    <Compile Include="Sobol\DirectionNumbers.cs" />
+    <Compile Include="Sobol\UniformSequence.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

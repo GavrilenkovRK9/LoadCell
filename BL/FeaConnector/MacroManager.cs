@@ -14,32 +14,43 @@ namespace BL.FeaConnector
 {
     public class MacroManager
     {
-        public MacroManager(string filePath, bool isForDOE, IEnumerable<string> GFs, IEnumerable<int> SurfaceID)
+        /// <summary>
+        /// версия конструктора для DOE
+        /// </summary>
+        /// <param name="filePath"></param>
+        public MacroManager(string filePath)
         {
+            Utils.CleanDir(Utils.GetTempDir());
             macro = File.ReadAllLines(filePath).ToList();
-            if(isForDOE)
-            {
-                truncateMacro(new string[] { "solve", "lssolve" });
-                appendCommand("*set, id, 0");
-                appendCommands(Utils.GetScriptsDir() + "doe.mac");
-            }
-            else
-            {
-                appendCommand("*set,id,0");
-                addCommandsForGF_OutPut(GFs, SurfaceID);
-            }
+            removeCommands(new string[]{ "amesh", "esurf", "lmesh", "lref"});
+            truncateMacro(new string[] { "solve", "lssolve" });
+            appendCommand("*set, id, 0");
+            appendCommands(Utils.GetScriptsDir() + "doe.mac");
             appendCommands(Utils.GetScriptsDir() + "log.mac");
         }
 
-        public void CreateMacros(List<string> variables, List<List<double>> values)
+        public MacroManager(string filePath, IEnumerable<string> GFs, IEnumerable<int> SurfaceID)
         {
-            int macroCount = values.Count();
-            findDesignVariables(variables.ToArray());
+            Utils.CleanDir(Utils.GetTempDir());
+            macro = File.ReadAllLines(filePath).ToList();
+            appendCommand("*set,id,0");
+            addCommandsForGF_OutPut(GFs, SurfaceID);
+            appendCommands(Utils.GetScriptsDir() + "log.mac");
+        }
+
+        public void CreateMacros(IEnumerable<string> variables, List<Solution> solutions)
+        {
+            
+            Utils.CleanDir(Utils.GetTempDir());
+            int macroCount = solutions.Count();
+            var temp1 = variables.ToList();
+            temp1.Add("id");
+            findDesignVariables(temp1.ToArray());
             for (int i = 0; i < macroCount; i++)
             {
-                var temp = values[i].ToList();
+                var temp = solutions[i].VariableValues.ToList();
                 temp.Add(i);
-                updateChandingVariables(temp.ToArray(), variables.ToArray());
+                updateChandingVariables(temp.ToArray(), temp1.ToArray());
                 File.WriteAllLines(Utils.GetTempDir() + string.Format("solution_{0}.mac", i), macro);
             }
         }
@@ -100,14 +111,16 @@ namespace BL.FeaConnector
 
         void addCommandsForGF_OutPut(IEnumerable<string> GF, IEnumerable<int> surfaceID)
         {
-            appendCommand(@"*cfopen,gf%id%,,txt");
-            appendCommand(@"*cfwrite," + string.Join(",", GF));
+            appendCommand(@"*cfopen,results%id%,txt");
+            appendCommand(@"*cfwrite,," + string.Join(",", GF));
             appendCommand(@"*cfclos");
             appendCommand(string.Format(@"*dim,lines,array,{0}", surfaceID.Count()));
+            appendCommand(string.Format("lineCount={0}", surfaceID.Count()));
             int i = 0;
+            
             foreach (var surface in surfaceID)
             {
-                appendCommand(string.Format(@"lines({0})={1}", i, surface));
+                appendCommand(string.Format(@"lines({0})={1}", i+1, surface));
                 i++;
             }
             appendCommands(Utils.GetScriptsDir() + "strain.mac");

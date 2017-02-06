@@ -16,6 +16,7 @@ namespace BL.Input
     {
         public FunConstraint(string ConstraintEquation)
         {
+            this.ConstraintEquation = ConstraintEquation;
             constraint = new Expression(ConstraintEquation);
         }
 
@@ -62,9 +63,11 @@ namespace BL.Input
         public bool ConstraintSatisfied(string[] names, double[] values)
         {
             for (int i = 0; i < values.Length; i++)
-                constraint.Parameters[names[i]] = values;
+                constraint.Parameters[names[i]] = values[i];
             return (bool)constraint.Evaluate();
         }
+
+        public string ConstraintEquation { get; set; }
 
         private Expression constraint;
 
@@ -72,6 +75,18 @@ namespace BL.Input
 
     public class Variable
     {
+        public Variable()
+        {
+
+        }
+        public Variable(string name, double initValue, double lo, double hi, bool isDecVar)
+        {
+            Name = name;
+            InitValue = initValue;
+            Hi = hi;
+            Lo = lo;
+            IsDecisionVariable = isDecVar;
+        }
         public double InitValue { get; set; }
         public double Hi { get; set; }
         public double Lo { get; set; }
@@ -104,11 +119,7 @@ namespace BL.Input
         public double GridCount { get; set; }
     }
 
-    public class Surface
-    {
-        public int ID { get; set; }
-        public bool Horizontal { get; set; }
-    }
+    
 
     public class Criterion
     {
@@ -116,8 +127,33 @@ namespace BL.Input
         {
             this.Name = Name;
             this.isMinimized = isMinimized;
+            constraint = new Expression("true");
         }
         public string Name { get; set; }
         public bool isMinimized { get; set; }
+        public string ConstraintEqn { get; set; }
+        
+        public bool ConstraintSatisfied(double criterionValue)
+        {
+            constraint.Parameters[Name] = criterionValue;
+            return (bool)constraint.Evaluate();
+        }
+        public void SetConstraint(double CriterionLimit)
+        {
+            if(isMinimized)
+            {
+                ConstraintEqn = string.Format("{0}<{1}", Name, CriterionLimit);
+                constraint = new Expression(ConstraintEqn);
+            }
+                
+            else
+            {
+                ConstraintEqn = string.Format("{0}>={1}", Name, CriterionLimit);
+                constraint = new Expression(ConstraintEqn);
+            }
+                
+        }
+
+        Expression constraint;
     }
 }
